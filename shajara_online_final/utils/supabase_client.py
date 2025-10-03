@@ -39,7 +39,7 @@ def _chunked(iterable, size=100):
         yield chunk
 
 def upsert_posts(rows: List[dict]):
-    """ 
+    """
     Robust insert:
       - Normalize rows (datetime -> ISO, empty hash -> null)
       - Try batch insert (fast)
@@ -89,6 +89,6 @@ def upsert_posts(rows: List[dict]):
                 raise RuntimeError(f"Batch insert failed with status {status}: {e}") from e
         except Exception as ex:
             # network/timeout or other issues — stop and surface error
-            raise RuntimeError(f"Batch insert unexpectedly failed: {ex}" ) from ex
+            raise RuntimeError(f"Batch insert unexpectedly failed: {ex}") from ex
 
     return {"status": 201, "count": inserted_total}
