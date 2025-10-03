@@ -10,15 +10,20 @@ jobs:
   telegram:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      - name: Install deps
+
+      - name: Install deps for collectors (Telegram)
         run: |
           pip install --upgrade pip
           pip install telethon pandas requests
-      - name: Run Telegram collector
+
+      - name: Run Telegram collector (script)
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
@@ -28,20 +33,25 @@ jobs:
           TG_CHANNELS: "dmski_1,akbardrwz,Druzeresistance"
           TG_MAX_POSTS: "200"
           TG_PREFILTER: "السويداء,الساحل,اللاذقية,طرطوس,قتل,اشتباك,طائفي"
-        run: python -m collectors.telegram_collector
+        run: python collectors/telegram_collector.py
 
   facebook:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      - name: Install deps
+
+      - name: Install deps for Facebook collector
         run: |
           pip install --upgrade pip
           pip install facebook-scraper pandas requests lxml_html_clean
-      - name: Run Facebook collector
+
+      - name: Run Facebook collector (script)
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
@@ -49,4 +59,4 @@ jobs:
           FB_LIMIT: "200"
           FB_USER_AGENT: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"
           FB_COOKIES_JSON: ${{ secrets.FB_COOKIES_JSON }}
-        run: python -m collectors.facebook_collector
+        run: python collectors/facebook_collector.py
