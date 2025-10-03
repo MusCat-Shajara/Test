@@ -1,0 +1,5 @@
+telethon==1.36.0
+facebook-scraper==0.2.59
+pandas==2.2.2
+requests==2.32.3
+lxml_html_clean==0.1.0
